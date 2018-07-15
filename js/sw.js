@@ -1,8 +1,8 @@
 /** sw.js */
-let staticCacheName = "restaurants-static-1";
+let staticCacheName = "restaurant-cahce-1";
 let urlToCache = [
     '/',
-    './index.html',
+//    './index.html',
     './restaurant.html',
     './css/styles.css',
     './data/restaurants.json',
