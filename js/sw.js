@@ -1,8 +1,9 @@
 /** sw.js */
-let staticCacheName = "restaurant-cahce-1";
+
+let staticCacheName = "restaurant-stat-1";
 let urlToCache = [
     '/',
-//    './index.html',
+    './index.html',
     './restaurant.html',
     './css/styles.css',
     './data/restaurants.json',
@@ -19,40 +20,39 @@ let urlToCache = [
     './img/8.jpg',
     './img/9.jpg',
     './img/10.jpg',
+    // include other new resources for the new version...
 ];
 
-self.addEventListener('install', function (event) {
-
-    event.waitUntil(
-        caches.open(staticCacheName).then(function (cache) {
-            console.log(cache);
-            return cache.addAll(urlToCache);
-
-        }).catch(erroe => {
-            console.log(erroe);
-        })
-    );
+self.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open(staticCacheName).then(function(cache) {
+      return cache.addAll(urlToCache);
+    })
+  );
 });
 
-self.addEventListener('activate', function (event) {
-    event.waitUntil(
-        caches.keys().then(function (cacheNames) {
-            return Promise.all(
-                cacheNames.filter(function (cacheName) {
-                    return cacheName.startsWith('restaurant-') &&
-                        cacheName != staticCacheName;
-                }).map(function (cacheName) {
-                    return caches.delete(cacheName);
-                })
-            );
-        })
-    );
-});
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => Promise.all(cacheNames.map(cache => {
+      if (cache !== staticCacheName) {
+        return caches.delete(cache);
+      }
+    })))
+  )
+})
 
-self.addEventListener('fetch', function (event) {
-    event.respondWith(
-        caches.match(event.request).then(function (response) {
-            return response || fetch(event.request);
-        })
-    );
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(resp) {
+      return resp || fetch(event.request).then(function(response) {
+        let responseClone = response.clone();
+        caches.open('restaurant-stat-1').then(function(cache) {
+          cache.put(event.request, responseClone);
+        });
+        return response;
+      });
+    }).catch(function() {
+      return caches.match('./img/myLittleVader.jpg');
+    })
+  );
 });

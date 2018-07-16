@@ -62,7 +62,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img';
-  image.alt = restaurant.name; // új beszúrás
+  image.alt = restaurant.name;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -140,7 +140,7 @@ createReviewHTML = (review) => {
   li.appendChild(comments);
 
   return li;
-}}
+}
 
 /**
  * Add restaurant name to the breadcrumb navigation menu
@@ -149,7 +149,7 @@ fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById("breadcrumb");
   const li = document.createElement("li");
   li.innerHTML = restaurant.name;
-//  li.setAttribute("aria-current", "page"); kiegészítés
+  li.setAttribute("aria-current", "page");
   breadcrumb.appendChild(li);
 };
 
