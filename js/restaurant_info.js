@@ -2,12 +2,8 @@ let restaurant;
 var map;
 
 /**
- * Initialize map as soon as the page is loaded.
-document.addEventListener('DOMContentLoaded', (event) => {  
-  initMap();
-});
+ * Initialize Google map as soon as the page is loaded.
 */
-
 window.initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) {
@@ -56,9 +52,11 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
+  name.setAttribute('aria-label', `restaurant name: ${restaurant.name}`)
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.setAttribute('aria-label', `restaurant address: ${restaurant.address}`)
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img';
@@ -67,6 +65,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
+  cuisine.setAttribute('aria-label', `cuisine type: ${restaurant.cuisine_type}`);
 
   // fill operating hours
   if (restaurant.operating_hours) {
@@ -81,6 +80,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
+  let openingHours = [];
   for (let key in operatingHours) {
     const row = document.createElement('tr');
 
@@ -93,7 +93,10 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     row.appendChild(time);
 
     hours.appendChild(row);
+    openingHours.push(`${key} ${operatingHours[key]} `);
   }
+  console.log(openingHours);
+  hours.setAttribute('aria-label', `Restaruant Hours ${openingHours.join('. ').replace(/-/g, 'to')}`);
 };
 
 /**
@@ -101,7 +104,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById("reviews-container");
-  const title = document.createElement("h2"); // "h4" volt
+  const title = document.createElement("h3");
   title.innerHTML = "Reviews";
   container.appendChild(title);
 
@@ -129,15 +132,20 @@ createReviewHTML = (review) => {
 
   const date = document.createElement('p');
   date.innerHTML = review.date;
+  date.setAttribute('tabindex', '0');
   li.appendChild(date);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.setAttribute('tabindex', '0');
   li.appendChild(rating);
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
+  comments.setAttribute('tabindex', '0');
   li.appendChild(comments);
+  li.setAttribute('aria-label', `review by ${review.name}`);
+  li.setAttribute('tabindex', '0');
 
   return li;
 }
@@ -149,7 +157,6 @@ fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById("breadcrumb");
   const li = document.createElement("li");
   li.innerHTML = restaurant.name;
-  li.setAttribute("aria-current", "page");
   breadcrumb.appendChild(li);
 };
 

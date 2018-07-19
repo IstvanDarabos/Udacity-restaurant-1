@@ -36,6 +36,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
+    option.className += "radio"
     select.append(option);
   });
 };
@@ -69,7 +70,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 };
 
 /**
- * Initialize leaflet map, called from HTML.
+ * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
   let loc = {
@@ -103,6 +104,7 @@ updateRestaurants = () => {
     } else {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
+      document.querySelector('#restaurants-list').setAttribute('aria-label', `List of Restaurants ${neighborhood? neighborhood =='all'? '': `Filtered by ${neighborhood}` : ''} ${cuisine? cuisine == 'all'? '' : `and ${cuisine}` : ''}`);
     }
   })
 };
@@ -128,8 +130,6 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
-  ul.setAttribute("tabindex", "0");
-  ul.setAttribute("aria-label", "restaurants list");
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
@@ -141,34 +141,34 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-  li.setAttribute("aria-label", "restaurant details");
 
   const image = document.createElement('img');
-  image.setAttribute("alt", `${restaurant.name}'s restaurant photo`);
   image.className = 'restaurant-img';
-  image.alt = restaurant.name ; // új beszúrás
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = restaurant.name + 'restaurant' ;
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
+  name.setAttribute('aria-label', `restaurant name: ${restaurant.name}`)
   li.append(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
+  neighborhood.setAttribute('aria-label', `neighborhood: ${restaurant.neighborhood}`)
   li.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
+  address.setAttribute('aria-label', `restaurant address: ${restaurant.address}`)
   li.append(address);
 
   const more = document.createElement('a');
-  more.setAttribute(
-    "aria-label",
-    restaurant.name + ", " + restaurant.neighborhood
-  );
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
+  more.setAttribute('role', 'button');
+  more.setAttribute('tabindex', '0');
+  more.setAttribute('aria-label', `Click to navigate to ${restaurant.name} review page. restaurant address: ${restaurant.address} ${restaurant.neighborhood}. `);
   li.append(more);
 
   return li;

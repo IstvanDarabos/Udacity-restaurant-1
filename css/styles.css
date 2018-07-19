@@ -32,12 +32,15 @@ a:hover, a:focus {
 a img {
   border: none 0px #fff;
 }
-h1, h2, h3, h4, h5, h6 {
+ h1, h2, h3, h4, h5, h6 {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
 }
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
   display: block;
+}
+.skip-content {
+  visibility: hidden;
 }
 #maincontent {
   background-color: #f3f3f3;
@@ -107,6 +110,7 @@ nav h1 a {
   width: 100%;
   background-color: #ccc;
 }
+
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
@@ -140,6 +144,15 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Listing ====================== */
+
+#restaurant-list-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
 #restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
@@ -168,7 +181,7 @@ nav h1 a {
   min-height: 248px;
   min-width: 100%;
 }
-#restaurants-list li h1 {
+#restaurants-list li h2 {
   font-family: Georgia, serif;
   font-size: 14pt;
   letter-spacing: 2px;
@@ -330,6 +343,13 @@ nav h1 a {
   font-variant: small-caps;
   text-transform: lowercase;
 }
+.restaurant-hours-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}
+
 
 /* ====================== Responsive Layout ====================== */
 @media only screen and (min-width: 0px) {
