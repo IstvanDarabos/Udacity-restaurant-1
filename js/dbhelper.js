@@ -20,6 +20,7 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 5040; // Change this to your server port
+    console.log(`http://localhost:${port}`);
     return `http://localhost:${port}`;
 //    return `https://istvandarabos.github.io/Udacity-restaurant-1/data/restaurants.json`;
   }
