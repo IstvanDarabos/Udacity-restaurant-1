@@ -189,7 +189,6 @@ createRestaurantHTML = (restaurant) => {
 };
 
 /**  Add the serviceWorker
-
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./js/sw.js', {scope: '/js/'})
   .then(function(reg) {
@@ -200,5 +199,4 @@ if ('serviceWorker' in navigator) {
     console.log('Registration failed with ' + error);
   });
 }
-
 */
