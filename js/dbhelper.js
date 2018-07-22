@@ -1,15 +1,4 @@
 /**
- * Register ServiceWorker.
- */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker
-//      .register('./js/sw.js')
-      .register('sw.js')
-      .then(() => console.log('SW is registered!'));
-  });
-}
-/**
  * Common database helper functions.
  */
 class DBHelper {
@@ -19,9 +8,8 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 5040; // Change this to your server port
-    return `http://localhost:${port}`;
-//    return `https://istvandarabos.github.io/Udacity-restaurant-1/data/restaurants.json`;
+    const port = 8000; // Change this to your server port
+    return `http://localhost:${port}/data/restaurants.json`;
   }
 
   /**

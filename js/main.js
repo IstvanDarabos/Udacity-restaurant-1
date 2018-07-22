@@ -188,9 +188,10 @@ createRestaurantHTML = (restaurant) => {
   });
 };
 
-/**  Add the serviceWorker
+//  Add the serviceWorker
+/*
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./js/sw.js', {scope: '/js/'})
+  navigator.serviceWorker.register('/sw.js', {scope: '/js/'})
   .then(function(reg) {
     // registration worked
     console.log('Registration succeeded. Scope is ' + reg.scope);
@@ -200,3 +201,10 @@ if ('serviceWorker' in navigator) {
   });
 }
 */
+if ('serviceWorker' in navigator) {
+ navigator.serviceWorker.register('/sw.js').then(function() {
+   console.log('Registration worked!');
+ }).catch(function() {
+   console.log('Registration failed!');
+ });
+}
